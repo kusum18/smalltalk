@@ -31,9 +31,12 @@ class Answers extends REST_Controller {
 		$info = array();
 		$finalifno= array();
 		$userobj = new User();
-		$info
+		$info_question = array();
+		$info_question['question_text']=$objquestion->post_text;
+		
+		$info_question['accepted_answer']=$objquestion->question_answer_id;
 		//question text
-		$finalifno['question'][]=$objquestion->post_text;
+		$finalifno['question'][]=$info_question;
 		
 		//loop to store data into array
 		foreach ($objpost->all as $obj)

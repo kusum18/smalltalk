@@ -23,10 +23,10 @@ class Newanswer extends REST_Controller {
 		$answer_obj= new Post();
 		
 		//values
-		$answer_obj->post_text = $this->post('answer_text');
+		$answer_obj->post_text = str_replace ("###","\n",$this->post('answer_text'));
 		$answer_obj->user_id = $this->post('user_id');
 		$answer_obj->post_type = $post_type;
-		$answer_obj->question_id = $this->post('question_id');
+		$answer_obj->question_answer_id = $this->post('question_id');
 		$answer_obj->count = $count;
 		
 		//saving data in the db
