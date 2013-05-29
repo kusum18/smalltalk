@@ -1,6 +1,6 @@
 <?php
  require(APPPATH.'libraries/REST_Controller.php');
-class Answers extends REST_Controller {
+class AcceptedAnswer extends REST_Controller {
  
   
 	function __construct(){
@@ -9,29 +9,30 @@ class Answers extends REST_Controller {
 		
 		//loding the model
 		$this->load->model('post');
-		$this->load->model('user');
- 
+		 
 	 
 	}
 	
-	function getanswers_get($questionid)
+	function accepted_get($question_id, $answer_id)
 	{
 						
 		//creating the object of table post
 		$objpost= new Post();
-		$objquestion= new Post();
+		//$objquestion= new Post();
 		
 		//fetching the answer whose id is $questionid
-		$objpost->where('question_answer_id',$questionid)->get();
+		$objpost->where('id',$question_id)->get();
+		$objpost->question_answer_id=$answer_id;
 		
-		//fetch the question text
-		$objquestion->where('id',$questionid)->get();
+		$objpost->save();
+	/* 	//fetch the question text
+		//$objquestion->where('id',$questionid)->get();
 		
 		//array to store the questions
 		$info = array();
 		$finalifno= array();
 		$userobj = new User();
-		$info
+		
 		//question text
 		$finalifno['question'][]=$objquestion->post_text;
 		
@@ -49,7 +50,7 @@ class Answers extends REST_Controller {
 		
 		//print the results
 		$this->response($finalifno);
-	
+	 */
 	
 	}
 	

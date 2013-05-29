@@ -10,6 +10,7 @@ class Questions extends REST_Controller {
 		//loding the model
 		$this->load->model('post');
 		$this->load->model('user');
+		$this->load->model('userfriend');
  
 	 
 	}
