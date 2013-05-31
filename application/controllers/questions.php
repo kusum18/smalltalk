@@ -17,92 +17,43 @@ class Questions extends REST_Controller {
 	
 	function getquestions_get($userid, $start, $totalrecords)
 	{
-	//creating the object of table post
-		$objpost= new Post();
-		echo "new";
-		echo "new";
-		$objquestion= new Post();
+		//object declaration for the tables
+		$friedndObj = new Userfriend();
+		$userObj = new User();
+		$postObj = new Post();
+		$tempuserObj = new User();
 		
-		//fetching the answer whose id is $questionid
-		$objpost->where('user_id',$userid)->get();
+		//fetching data from userfriend table with user id as given in the get method $userid
+		$friedndObj->where('user_id',$userid)->get();
 		
-		//fetch the question text
-		//$objquestion->where('id',$questionid)->get();
-		
-		//array to store the questions
-		$info = array();
-		$finalifno= array();
-		/* $userobj = new User();
-		$info_question = array();
-		$info_question['question_text']=$objquestion->post_text;
-		
-		$info_question['accepted_answer']=$objquestion->question_answer_id;
-		//question text
-		$finalifno['question'][]=$info_question; */
-		
-		//loop to store data into array
-		foreach ($objpost->all as $obj)
+		//temp storage array
+		$friend = array();
+
+		foreach($friedndObj->all as $o)
 		{
-			$info['id']=$obj->prim;
-			/* $info['post_text']=$obj->post_text;
-			$info['count']=$obj->count;
-			$info['user_info']=$userobj->where('id',$obj->user_id)->get()->username ; */
-			
-			$finalifno['answers'][]=$info;
-			
+			$friend['friend_id'][]=$o->friend_id;	
 		}
 		
-		//print the results
-		$this->response($finalifno);
-	
-
-	
-		/* $o = new Userfriend();
-		$o->get();
-
-		foreach ($o as $obj)
-		{
-			echo $obj->prim;
-		}
-	
-		echo "tessst";
-		//feteching user's friends
-		$friendObj = new Userfriend();
-		$friendObj->get();
-		foreach ($friendObj as $fobj)
-		{
-			foreach( $fobj->all as $obj)
-			{
-			echo $obj->user_id;
-			echo $obj->prim; 
-			}
-			//$friendids=$fobj->FriendID;
-		} */
-	/* 	$userObj = new User();
-		$postObj= new Post(); */
-		
-		//generating all the friends of the given user id
-		//$friendObj->select('FriendID');
-		//$friendObj->where('user_id',$userid)->get();
-		
-		//$friendObj->get();
-		//S$friendids = array();
-		
-		/* //print_r( $friendids);
+		//fetch data from User table only the users which are registed in the poocho app
 		$userObj->select('id');
 		$userObj->where('isRegistered',1);
-		$userObj->where_in('id',$friendObj);
-		$userObj->get();
+		$userObj->where_in('id',$friend['friend_id']);
+		$userObj->get(); 
 		
+		//temp storage array
+		$userReg =array();
 		
-		
-		//creating the object of table post
-		
+		foreach($userObj->all as $o)
+		{
+			$userReg['users'][]=$o->id;
+			
+		}	
 		
 		//fetching the questions whose user id is $userid
-		$postObj->where_in('user_id',$userObj);
+		$postObj->where_in('user_id',$userReg['users']);
 		$postObj->where('post_type',1);
-		$postObj->get($totalrecords,$start);
+		$postObj->order_by('id','desc');
+		$postObj->get($totalrecords, $start);
 		
 		//array to store the questions
 		$info = array();
@@ -111,14 +62,17 @@ class Questions extends REST_Controller {
 		//loop to store data into array
 		foreach ($postObj->all as $obj)
 		{
-			$info['id']=$obj->id;
+			$info['post_id']=$obj->id;
 			$info['post_text']=$obj->post_text;
+			$info['post_title']=$obj->title;
+			$info['accepted_answer']=$obj->question_answer_id;
+			$info['user_name']=$userObj->where('id',$obj->user_id)->get()->username;
 			$finalifno['questions'][]=$info;
 			
 		}
 		
 		//printing the result
-		$this->response($finalifno); */
+		$this->response($finalifno); 
 
 	
 	
