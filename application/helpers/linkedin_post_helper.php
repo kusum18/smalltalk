@@ -153,9 +153,11 @@ class Linkedin_post extends CI_Controller {
     }
 	
 
-	function getComments(){
+	function getComments($linkedinpostid){
 	
-		print_r(json_encode($this->fetch('GET','/v1/people/~/network/updates/key=UNIU-191877521-5744535918186876928-SHARE/update-comments',
+		$path='/v1/people/~/network/updates/key='.$linkedinpostid.'/update-comments';
+		echo $path;
+		return $this->fetch('GET',$path,
         array(
             'comment' => 'Hello Linkedin',
             'content' => array(
@@ -165,7 +167,7 @@ class Linkedin_post extends CI_Controller {
             ),
             'visibility' => array('code' => 'anyone' )
         )
-    )));
+    );
  
  
  
