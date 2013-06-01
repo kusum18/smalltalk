@@ -38,9 +38,11 @@ class Answers extends REST_Controller {
 		//question text
 		$finalifno['question'][]=$info_question;
 		
+		$flag = 0;
 		//loop to store data into array
 		foreach ($objpost->all as $obj)
 		{
+			$flag=1;
 			$info['id']=$obj->id;
 			$info['post_text']=$obj->post_text;
 			$info['count']=$obj->count;
@@ -49,9 +51,20 @@ class Answers extends REST_Controller {
 			$finalifno['answers'][]=$info;
 			
 		}
+		if (flag==1)
+		{
+			$finalifno['status_code']=200;
+			//print the results
+			$this->response($finalifno);
+			
+		}
+		else
+		{
+			$finalifno['status_code']=400;
+			//printing the result
+			$this->response($finalifno);
 		
-		//print the results
-		$this->response($finalifno);
+		}
 	
 	
 	}
