@@ -23,17 +23,17 @@ class Commentfetch extends REST_Controller {
 	function fetch_get($userid)
 	{
 	
-		echo "a ";
+		
 		//$this->load->helper('linkedin_post');
 		
 		//object declaration for the tables
 		//object declaration for the tables
 		$userObj = new User();
-		echo "b ";
+		
 		$postanswers = new Post();
-		echo "c ";
+	
 		$postquestions = new Post();
-		echo "d ";
+	
 		$tempObj = new User();
 		$newans = new Post();
 		
@@ -43,8 +43,7 @@ class Commentfetch extends REST_Controller {
 		echo "e ";
 		foreach($postquestions->all as $question)
 		{
-			echo " id:";
-			echo $question->id;
+			
 			if ($question->linkedin_post_id !=-1)
 			{
 			// $question->linkedin_post_id
@@ -89,36 +88,12 @@ class Commentfetch extends REST_Controller {
 							$newans->save();
 							
 						}
-						//if ($postanswers->linkedin_
-						/* 
-						echo $comment->comment;
-						echo " ";
-						echo $comment->id;
-						echo " ";
-						echo $comment->person->firstName;
-						echo " ";
-						echo $comment->person->id;
-						echo " ";
-						echo " ";
-						echo " "; */
+						
 					}	
 				}
 			
 			}
-			/* $postanswers->where('question_answer_id',$question->id);
-			$postanswers->where('post_type',2);
-			$postanswers->get();
 			
-			foreach($postanswers->all as $answer)
-			{
-				if ($answer->linkedin_post_id != -1)
-				{
-					echo "in this";
-					$obj = new Linkedin_post();
-					print_r($obj->getComments($answer->linkedin_post_id));
-				}
-				
-			} */
 		
 		}
 
