@@ -70,7 +70,7 @@ class Insertdb extends REST_Controller{
 			
 			//for push notification
 			$pushObj = new Push();
-			$pushObj->pushNotification($userObj->twittertoken);
+			$pushObj->pushNotification($userObj->device_id);
 		}
 		
 		
