@@ -87,8 +87,8 @@ class facebookfriend extends CI_Controller {
 	*/
 	}
 	public function postOnWall(){
-		$msg='{Middleware,GraphAPI,Please ignore}';
-		$token='CAACEdEose0cBAF3k0xoqeFZC2m0CgCLkciIkzT2gKyXGBg77JbihnnQR2tZBpFv7bhkPfo2nMEJoWvojONJAoY4bmiSEAD2hfzeoBKQk4gQ2hcUEJ7q1WJwagpuF0a4g1gZA7ZBRmsEn9fV7fSYLNNxQHddWDDRWZBmDsBZBY1rwZDZD';
+		$msg='{Spam post of the day - 1}';
+		$token='CAACEdEose0cBAMZBsCqNwI5QWKloynJmel8iaXpFhxksf7l54SOB2rRkYvYiiHd7Ay9IrRrCj5JZCjoWJyJXBeZCZAWq0MOIrs64LaD9sS0ZCeG7DvZC3MKeUGKpdeZADZAlP5GygpRKFqKHbz47PljU7LF3WrUCZBPbcmVSXPnZByBAZDZD';
 		$id='';
 			$attachment =  array(
 			'access_token' => $token,
@@ -113,7 +113,7 @@ class facebookfriend extends CI_Controller {
 			'method'=>'GET'
 		)
 		));
-		$response = json_decode(file_get_contents("https://graph.facebook.com/19292868552_10150189643478553?access_token=CAACEdEose0cBAF3k0xoqeFZC2m0CgCLkciIkzT2gKyXGBg77JbihnnQR2tZBpFv7bhkPfo2nMEJoWvojONJAoY4bmiSEAD2hfzeoBKQk4gQ2hcUEJ7q1WJwagpuF0a4g1gZA7ZBRmsEn9fV7fSYLNNxQHddWDDRWZBmDsBZBY1rwZDZD", true, $context));
+		$response = json_decode(file_get_contents("https://graph.facebook.com/19292868552_10150189643478553/comment?access_token=CAACEdEose0cBANC7IU0UBSdY7Ifawtm9tr7QQKHhlzh4q1PBVrUqiZCv7Ejv3uPfnKX4aeIhbf3eZAZAdmV2ttZCGUQIyFAAGDOsN7EzfpJXIgpl8ePoPLyY4ZAYBhUSW4LEpcFPWakpZBTiTsiiXY35038HmDjMCVlA1UZCi0hVgZDZD", true, $context));
 	
 		$jsonIterator = new RecursiveIteratorIterator(
 		new RecursiveArrayIterator($response, RecursiveIteratorIterator::SELF_FIRST));
