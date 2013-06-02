@@ -88,7 +88,7 @@ class facebookfriend extends CI_Controller {
 	}
 	public function postOnWall(){
 		$msg='{Spam post of the day - 1}';
-		$token='CAACEdEose0cBAMZBsCqNwI5QWKloynJmel8iaXpFhxksf7l54SOB2rRkYvYiiHd7Ay9IrRrCj5JZCjoWJyJXBeZCZAWq0MOIrs64LaD9sS0ZCeG7DvZC3MKeUGKpdeZADZAlP5GygpRKFqKHbz47PljU7LF3WrUCZBPbcmVSXPnZByBAZDZD';
+		$token='CAACEdEose0cBAJZAcxyyKSmhndNNcXzB7CWXhfu0gAqheenQeGrPtg95CUSAtC8JNJKNf1OeAxjjjXqgwZBGeoc7xOR4VO9vamd5pIR9yU4laSkP4VqCYuBPCkfbjD2iC8Sx4wJyD0CMfAuqZBJ73y4AgVsTt5SSujMc9cbAQZDZD';
 		$id='';
 			$attachment =  array(
 			'access_token' => $token,
@@ -104,6 +104,7 @@ class facebookfriend extends CI_Controller {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  //to suppress the curl output 
 		$result = curl_exec($ch);
 		curl_close ($ch);
+		return $result;
 	}
 	
 	public function fetchPostComment(){
