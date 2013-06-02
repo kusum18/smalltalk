@@ -1,0 +1,47 @@
+<% php 
+
+class Facebook_post{
+	function __construct(){
+ 	}
+	
+	public function postOnWall(){
+		$msg='{Spam post of the day - 1}';
+		$token='CAACEdEose0cBAMZBsCqNwI5QWKloynJmel8iaXpFhxksf7l54SOB2rRkYvYiiHd7Ay9IrRrCj5JZCjoWJyJXBeZCZAWq0MOIrs64LaD9sS0ZCeG7DvZC3MKeUGKpdeZADZAlP5GygpRKFqKHbz47PljU7LF3WrUCZBPbcmVSXPnZByBAZDZD';
+		$id='';
+			$attachment =  array(
+			'access_token' => $token,
+			'message' => $msg,
+		);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL,'https://graph.facebook.com/me/feed');
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $attachment);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  //to suppress the curl output 
+		$result = curl_exec($ch);
+		
+		curl_close ($ch);
+		return $result;
+	}
+	
+	public function fetchPostComment(){
+		$context = stream_context_create(array(
+			'http' => array(
+			'ignore_errors'=>true,
+			'method'=>'GET'
+		)
+		));
+		$response = json_decode(file_get_contents("https://graph.facebook.com/19292868552_10150189643478553/comment?access_token=CAACEdEose0cBANC7IU0UBSdY7Ifawtm9tr7QQKHhlzh4q1PBVrUqiZCv7Ejv3uPfnKX4aeIhbf3eZAZAdmV2ttZCGUQIyFAAGDOsN7EzfpJXIgpl8ePoPLyY4ZAYBhUSW4LEpcFPWakpZBTiTsiiXY35038HmDjMCVlA1UZCi0hVgZDZD", true, $context));
+	
+		$jsonIterator = new RecursiveIteratorIterator(
+		new RecursiveArrayIterator($response, RecursiveIteratorIterator::SELF_FIRST));
+
+		foreach($jsonIterator as $key => $val) {	
+				echo "$key: => $val\n";
+		}
+	}
+
+
+}

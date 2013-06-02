@@ -1,0 +1,19 @@
+<?php
+require(APPPATH.'libraries/REST_Controller.php');
+class facebookWallPost(){
+	
+	function __construct(){	
+		$this->load->model('user');
+		$this->load->model('post');
+		$this->load->helper('facebook_post');
+	}
+	
+	public function wallPost(){
+		$user_obj = new User()
+		$post_id = postOnWall($token,$msg);
+		
+	
+	
+	}
+
+}
