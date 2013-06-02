@@ -20,7 +20,7 @@ class Commentfetch extends REST_Controller {
 		return $obj->getComments($linkedin_post_id,$linkedintoken);
 	
 	}
-	function fetch_get($userid)
+	function fetch_get()
 	{
 	
 		
