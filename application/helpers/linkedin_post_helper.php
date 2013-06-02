@@ -3,19 +3,15 @@ session_start();
 require_once("OAuth.php");
 
  
-class Linkedin_post extends CI_Controller {
+class Linkedin_post {
  
  
 	var $data;
  
 	function __construct(){
  
-		parent::__construct();
-		$this->load->model('post');
-		$this->load->model('user');
- 
-	
- 
+		//parent::__construct();
+		
 	}
 	
 	
@@ -148,15 +144,17 @@ class Linkedin_post extends CI_Controller {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER  ,1);
 
         $result = curl_exec($ch);
-        
+        //print_r($result);
         return $result;
     }
 	
 
-	function getComments($linkedinpostid){
+	function getComments($linkedinpostid,$linkedintoken){
+	
+		$this->data['linkedintoken']=$linkedintoken;
 	
 		$path='/v1/people/~/network/updates/key='.$linkedinpostid.'/update-comments';
-		echo $path;
+		//echo $path;
 		return $this->fetch('GET',$path,
         array(
             'comment' => 'Hello Linkedin',
