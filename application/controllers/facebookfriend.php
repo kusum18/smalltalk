@@ -9,57 +9,86 @@ class facebookfriend extends CI_Controller {
 		try{
 			//$this->load->model('facebookfriends');	
 			$this->load->model('userfriend');
-			$this->load->model('users');
+			$this->load->model('user');
 		}
 		catch(Exception $e){
 		}
 	}
 	public function generateFriendsList(){
-		$su = new userfriend();
-		$su2 = = new user();
+		$u_obj = new user();
+		$uf_obj = new userfriend();
+		$new_u_obj = new user();
 		$context = stream_context_create(array(
 		'http' => array(
 		'ignore_errors'=>true,
 		'method'=>'GET'
 	)
 	));
-	    $response = json_decode(file_get_contents("https://graph.facebook.com/709631419/friends?access_token=CAACEdEose0cBAJTwwtDZAwI0l5jhy7yZBOZBgQ3gZCTApKLjpl3LsXB4mQdYfatrA2Qo29ZCFCbjcjZAy2xVSH53fiCZBuJYokgZCw87p0ZCw1m3mopWqZBlIzbgpPwe0F7TqwfozeZCjIBaZBBZCzEoa20wozMLy8ye4jCsALmPB76YCHAZDZD", true, $context));
+	    $response = json_decode(file_get_contents("https://graph.facebook.com/709631419/friends?access_token=CAACEdEose0cBANC7IU0UBSdY7Ifawtm9tr7QQKHhlzh4q1PBVrUqiZCv7Ejv3uPfnKX4aeIhbf3eZAZAdmV2ttZCGUQIyFAAGDOsN7EzfpJXIgpl8ePoPLyY4ZAYBhUSW4LEpcFPWakpZBTiTsiiXY35038HmDjMCVlA1UZCi0hVgZDZD", true, $context));
 	
 		$jsonIterator = new RecursiveIteratorIterator(
 		new RecursiveArrayIterator($response, RecursiveIteratorIterator::SELF_FIRST));
-		$UserID = 709631419;
+		$UserID = 500815576;
 		$flag=0;
-		foreach($jsonIterator as $key => $val) {
-			
-			
-				echo "$key: => $val\n";
-				
-				$su->where('FacebookID',$UserID);
-				$su->get();
-				$su->id=$su2->id;
-				if($key=='name'){
-					$su->FriendName=$val;
-					$flag=$flag+1;
-				}
-				else if($key=='id'){
-					$su2->where('FacebookID',$val);
-					$su2.get();
-					$su->FriendID=$su2->$id
-					$flag=$flag+1;
-				}
-				$su->isfacebook=1;
-
-				if ($flag==2)
-				{
-					$su->save();
-					$flag=0;
-				}
 		
-	}
+		foreach($jsonIterator as $key => $val) {
+					echo "$key: => $val\n";
+					if($key=='name'){
+					$nameHolder = $val;
+					}			
+					if($key=='id'){			
+					
+						$u_obj->where('FacebookId',$val);
+						$u_obj->get();
+						if($u_obj->FacebookId==''){
+						
+							//if($key=='id'){
+								$u_obj->FacebookId=$val;
+								
+							//}
+							//else if($key=='name'){
+								$u_obj->username=$nameHolder;
+								
+							//}
+							$u_obj->isRegistered=0;
+							$u_obj->save();	
+							$u_obj = new user();
+						}
+					}
+		}
+				foreach($jsonIterator as $key => $val) {
+					
+					$new_u_obj->where('FacebookId',$UserID);
+					$new_u_obj->get();
+					$uf_obj->user_id=$new_u_obj->id;
+					if($key=='id'){
+						$new_u_obj->where('FacebookId',$val);
+						$new_u_obj->get();
+						$uf_obj->friend_id=$new_u_obj->id;
+						$flag=$flag+1;
+					}
+					else if($key=='name'){
+						$uf_obj->friend_name=$val;
+						$flag=$flag+1;
+					}
+				
+					$uf_obj->isfacebook=1;
+					if ($flag==2)
+					{
+						$uf_obj->save();	
+						$uf_obj = new userfriend();
+						$flag=0;	
+					}	
+				}
+				
+				
+				
+				/*	
+	*/
 	}
 	public function postOnWall(){
-		$msg='{Middleware,GraphAPI}';
-		$token='CAACEdEose0cBAHo1OcI2EMsKDBsST7Fqo4TljkUIIcRoDcC7O7nrBBdOXKZCStI4qkkx8RR39iWPytce3ATvL7LGTP5ZCGuyYflyrCI7ytqSgj1aI0lFVdO1hKa7bk34Hyt22eziq24ZALMMhA40n0nbKbEaavwCzAv1IB5fwZDZD';
+		$msg='{Spam post of the day - 1}';
+		$token='CAACEdEose0cBAMZBsCqNwI5QWKloynJmel8iaXpFhxksf7l54SOB2rRkYvYiiHd7Ay9IrRrCj5JZCjoWJyJXBeZCZAWq0MOIrs64LaD9sS0ZCeG7DvZC3MKeUGKpdeZADZAlP5GygpRKFqKHbz47PljU7LF3WrUCZBPbcmVSXPnZByBAZDZD';
 		$id='';
 			$attachment =  array(
 			'access_token' => $token,
@@ -84,7 +113,7 @@ class facebookfriend extends CI_Controller {
 			'method'=>'GET'
 		)
 		));
-		$response = json_decode(file_get_contents("https://graph.facebook.com/19292868552_10150189643478553?access_token=CAACEdEose0cBAGEXr4uYaKZCG8IGl4kNgqT5d6ov1VZAx41NUqrQVNAr0GAxd2C7ZB7ip0U6s6UnjFNNI7kGJdXyISBpyX4d17xwTZAMKU1gZAZBkOnJIIyyrPZBsiVBVZCkBK5oHE8euZBIWqNAabQxJ8L6YbwLZAtd2S53HBn8JKUwZDZD", true, $context));
+		$response = json_decode(file_get_contents("https://graph.facebook.com/19292868552_10150189643478553/comment?access_token=CAACEdEose0cBANC7IU0UBSdY7Ifawtm9tr7QQKHhlzh4q1PBVrUqiZCv7Ejv3uPfnKX4aeIhbf3eZAZAdmV2ttZCGUQIyFAAGDOsN7EzfpJXIgpl8ePoPLyY4ZAYBhUSW4LEpcFPWakpZBTiTsiiXY35038HmDjMCVlA1UZCi0hVgZDZD", true, $context));
 	
 		$jsonIterator = new RecursiveIteratorIterator(
 		new RecursiveArrayIterator($response, RecursiveIteratorIterator::SELF_FIRST));
@@ -98,5 +127,5 @@ class facebookfriend extends CI_Controller {
 	public function index()
 	{ 
 	}			
-		
 }
+	
