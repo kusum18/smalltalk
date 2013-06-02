@@ -56,7 +56,7 @@ class Linkedinpost extends REST_Controller {
 		$postObj->save(); */
 
 	}
-	function linkedin_post($postid)
+	function linkedinposts_get($postid)
 	{
 		//object declaration for the tables
 		$userObj = new User();
