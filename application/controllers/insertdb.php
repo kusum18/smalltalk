@@ -74,8 +74,8 @@ class Insertdb extends REST_Controller{
 			$userObj->where('id',$value)->get();
 			
 			//for push notification
-			//$pushObj = new Push();
-			//$pushObj->pushNotification($userObj->device_id);
+			$pushObj = new Push();
+			$pushObj->pushNotification($userObj->device_id);
 		}
 		
 		
