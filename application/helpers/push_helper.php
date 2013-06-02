@@ -14,7 +14,7 @@ class Push {
 		
 	}
 
-	function pushNotification($deviceToken )
+	function pushNotification($deviceToken, $mesg )
 	{
 	
 		// Put your device token here (without spaces):
@@ -24,7 +24,7 @@ class Push {
 		$passphrase = 'CS237project';
 
 		// Put your alert message here:
-		$message = 'My first push notification!';
+		$message = $mesg;
 
 		////////////////////////////////////////////////////////////////////////////////
 
