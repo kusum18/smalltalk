@@ -15,10 +15,10 @@ class UserReg extends REST_Controller {
 	 
 	}
 	
-	function register_get($user_id,$username,$type,$id,$token, $devicetoken)
+	function register_get($user_id,$username1,$type,$id,$token, $devicetoken)
 	{
 	
-
+		$username=str_replace("%20"," ",$username1);
 		//object declaration for the tables
 		$userObj = new User();
 		if ($user_id==-1)
