@@ -37,7 +37,9 @@ class Commentfetch extends REST_Controller {
 		$tempObj = new User();
 		$newans = new Post();
 		
-		$postquestions->where('post_type',1)->get();
+		$postquestions->where('post_type',1);
+		$postquestions->where('question_answer_id',-1)
+		$postquestions->get();
 		echo "count:".$postquestions->count();
 		//$postquestions->get();
 		echo "e ";
