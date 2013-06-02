@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 require_once("OAuth.php");
 
  
@@ -9,8 +9,6 @@ class Linkedin_post {
 	var $data;
  
 	function __construct(){
- 
-		//parent::__construct();
 		
 	}
 	

@@ -10,6 +10,7 @@ class Insertdb extends REST_Controller{
 		$this->load->model('notification');
 		$this->load->helper('push');
 		$this->load->helper('linkedin_post');
+		$this->load->helper('facebook_post');
  	}
 	function linkedinposts($postid)
 	{
@@ -34,14 +35,11 @@ class Insertdb extends REST_Controller{
 
 	}
 	
-	function facebookposts($postid)
-	{
-		
-	}
+	
 	
 	public function insert_post(){
 		
-		
+		$user_obj = new User();
 		$post_obj = new Post();
 		//values
 		$post_obj->title = $this->post('title');
@@ -49,6 +47,13 @@ class Insertdb extends REST_Controller{
 		$post_obj->user_id = $this->post('UID');
 		$post_obj->question_answer_id = -1;
 		$post_obj->post_type = 1;
+		
+		$user_obj->where('id', $post_obj->user_id)->get();
+		$token=$user_obj->fbtoken;
+		$obj = new Facebook_post();
+		$post_id = $obj->postOnWall($token,$post_obj->post_text);
+		$post_id = json_decode($post_id);
+		$post_obj->facebook_post_id = $post_id->id;
 		$post_obj->save();
 		
 		
@@ -69,8 +74,8 @@ class Insertdb extends REST_Controller{
 			$userObj->where('id',$value)->get();
 			
 			//for push notification
-			$pushObj = new Push();
-			$pushObj->pushNotification($userObj->device_id);
+			//$pushObj = new Push();
+			//$pushObj->pushNotification($userObj->device_id);
 		}
 		
 		

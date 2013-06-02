@@ -29,7 +29,7 @@ class Getfriends extends REST_Controller{
 		$flag=0;
 		
 		foreach($jsonIterator as $key => $val) {
-					echo "$key: => $val\n";
+					
 					if($key=='name'){
 					$nameHolder = $val;
 					}			
@@ -48,7 +48,9 @@ class Getfriends extends REST_Controller{
 								
 							//}
 							$u_obj->isRegistered=0;
+							
 							$u_obj->save();	
+							echo "$key: => $val obid:".$u_obj->id." ";
 							$u_obj = new user();
 						}
 					}
@@ -58,6 +60,8 @@ class Getfriends extends REST_Controller{
 					$new_u_obj->where('FacebookId',$UserID);
 					$new_u_obj->get();
 					$uf_obj->user_id=$new_u_obj->id;
+					
+					
 					if($key=='id'){
 						$new_u_obj->where('FacebookId',$val);
 						$new_u_obj->get();
