@@ -32,6 +32,7 @@ class UserReg extends REST_Controller {
 					$userObj->device_id = $devicetoken;
 					$userObj->fbtoken = $token;
 					$userObj->FacebookId = $id;
+					$this->generateFriendsList($userObj->FacebookId,$userObj->fbtoken);
 
 				}
 				else
@@ -92,7 +93,7 @@ class UserReg extends REST_Controller {
 		}
 		$userObj->isRegistered = 1;
 		$userObj->save();
-		$this->generateFriendsList($userObj->FacebookId,$userObj->fbtoken);
+		
 		$this->response($userObj->id);
 	}
 	function generateFriendsList($fbID,$token){
