@@ -14,7 +14,7 @@ class Facebook_post {
 			'access_token' => $token,
 			'message' => $msg,
 		);
-
+		echo "inhelper";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,'https://graph.facebook.com/me/feed');
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -25,6 +25,7 @@ class Facebook_post {
 		$result = curl_exec($ch);
 		
 		curl_close ($ch);
+		print_r($result);
 		return $result;
 	}
 
