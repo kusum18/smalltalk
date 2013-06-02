@@ -127,9 +127,6 @@ class Linkedin_post {
                 );
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $postData );
             }
-            
-            
-            
         }
         
         //Useful for debugging, do not disable ssl in production!
