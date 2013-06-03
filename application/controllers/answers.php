@@ -51,7 +51,7 @@ class Answers extends REST_Controller {
 			$finalifno['answers'][]=$info;
 			
 		}
-		if (flag==1)
+		if ($flag==1)
 		{
 			$finalifno['status_code']=200;
 			//print the results
