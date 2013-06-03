@@ -15,15 +15,16 @@ class FetchFriends extends REST_Controller {
 		$friendobj->where('user_id',$uid)->get();
 		$userobj = new User();
 
-		//array to store the questions
+		// //array to store the questions
 		$frienddetails = array();
 		$totalFriends = array();
-		//loop to store data into array
+		// //loop to store data into array
 		
 		foreach ($friendobj->all as $obj)
 		{	
-			$userobj = $userobj->where('id', $obj->friend_id);	
-			if($userobj->isRegistered){
+			$friend_id = $obj->friend_id;
+			$userobj = $userobj->where('id', $friend_id)->get();	
+			if($userobj->isRegistered==1){
 
 				$frienddetails['fid']=$obj->friend_id;
 				$frienddetails['fname']=$obj->friend_name;
