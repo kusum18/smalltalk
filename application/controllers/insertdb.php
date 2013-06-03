@@ -72,6 +72,8 @@ class Insertdb extends REST_Controller{
 		$pid = $post_obj->id;
 		$pieces = $this->post('tagged_ppl');
 		$splitpieces = explode(",", $pieces);
+		
+		
 		foreach($splitpieces as $value)
 		{	
 			$notification_obj = new Notification();
@@ -84,7 +86,7 @@ class Insertdb extends REST_Controller{
 			
 			//for push notification
 			$pushObj = new Push();
-			$msg=$userObj->username.": Asked a question";
+			$msg=$user_obj->username.": Asked a question";
 			$pushObj->pushNotification($userObj->device_id,$msg);
 		}
 		
