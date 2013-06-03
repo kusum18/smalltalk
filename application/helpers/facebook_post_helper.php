@@ -29,4 +29,15 @@ class Facebook_post {
 		return $result;
 	}
 
+	public function fetchPostComment($token){
+		$context = stream_context_create(array(
+			'http' => array(
+			'ignore_errors'=>true,
+			'method'=>'GET'
+		)
+		));
+		$response = json_decode(file_get_contents("https://graph.facebook.com/19292868552_10150189643478553/comments?access_token=$token", true, $context));
+		return $response;
+	}
+
 }
