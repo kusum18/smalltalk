@@ -75,7 +75,7 @@ class Insertdb extends REST_Controller{
 			
 			//for push notification
 			$pushObj = new Push();
-			$msg=$userObj->username.": Asked a question".
+			$msg=$userObj->username.": Asked a question";
 			$pushObj->pushNotification($userObj->device_id,$msg);
 		}
 		
