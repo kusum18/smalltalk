@@ -48,14 +48,23 @@ class Insertdb extends REST_Controller{
 		$post_obj->question_answer_id = -1;
 		$post_obj->post_type = 1;
 		
-		$user_obj->where('id', $post_obj->user_id)->get();
-		$token=$user_obj->fbtoken;
-		$obj = new Facebook_post();
-		$post_id = $obj->postOnWall($token,$post_obj->post_text);
-		$post_id = json_decode($post_id);
-		$post_obj->facebook_post_id = $post_id->id;
-		$post_obj->save();
+		try{
+			$post_obj->save();
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
 		
+		try{
+			$user_obj->where('id', $post_obj->user_id)->get();
+			$token=$user_obj->fbtoken;
+			$obj = new Facebook_post();
+			$post_id = $obj->postOnWall($token,$post_obj->post_text);
+			$post_id = json_decode($post_id);
+			$post_obj->facebook_post_id = $post_id->id;
+			$post_obj->save();
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
 		
 		//to post on to linkedin wall
 		$this->linkedinposts($post_obj->id);

@@ -1,0 +1,21 @@
+<?php
+require(APPPATH.'libraries/REST_Controller.php');
+
+class fetchFacebookComment extends REST_Controller {
+	function __construct(){
+ 
+		parent::__construct();
+		
+		//loding the model
+		$this->load->model('post');
+		$this->load->model('user');
+		$this->load->helper('facebook_post');
+		 
+	}
+
+	public function fetchComment(){
+		
+
+
+	}
+}
