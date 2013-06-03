@@ -46,7 +46,7 @@ class Directedquestions extends REST_Controller {
 		else
 		{
 			//fetching the questions whose user id is $userid
-			$postObj->where_in('user_id',$posts['post_id']);
+			$postObj->where_in('id',$posts['post_id']);
 			$postObj->where('post_type',1);
 			$postObj->order_by('id','desc');
 			$postObj->get($totalrecords, $start);
