@@ -22,33 +22,15 @@ class Subscription extends REST_Controller {
 		$subObj = new User_subscription();
 		
 		
-		echo $this->post('subscription');
+		//echo $this->post('subscription');
 		$subscriptions = explode(",", $this->post('subscription'));
-		foreach($subscriptions as $sub)
-		{
-			echo  $sub;
-			if($sub==1)
-			{
-				echo  $sub;
-				$subObj->sports=1;
-			}
-			if($sub==2)
-			{
-				$subObj->movies=1;
-			}
-			if($sub==3)
-			{
-				$subObj->technology=1;
-			}
-			if($sub==4)
-			{
-				$subObj->places=1;
-			}
-			if($sub==5)
-			{
-				$subObj->music=1;
-			}
-		}
+		echo " ";
+		$subObj->sports = $subscriptions[0];
+		$subObj->movies = $subscriptions[1];
+		$subObj->technology = $subscriptions[2];
+		$subObj->places = $subscriptions[3];
+		$subObj->places = $subscriptions[4];
+		
 		$subObj->user_id = $this->post('userid');
 		$subObj->save();
 		
