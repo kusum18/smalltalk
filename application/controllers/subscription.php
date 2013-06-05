@@ -24,7 +24,9 @@ class Subscription extends REST_Controller {
 		
 		//echo $this->post('subscription');
 		$subscriptions = explode(",", $this->post('subscription'));
-		echo " ";
+		//echo " ";
+		
+		$subObj->where('user_id',$this->post('userid'))->get();
 		$subObj->sports = $subscriptions[0];
 		$subObj->movies = $subscriptions[1];
 		$subObj->technology = $subscriptions[2];
