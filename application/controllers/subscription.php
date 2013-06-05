@@ -31,7 +31,7 @@ class Subscription extends REST_Controller {
 		$subObj->movies = $subscriptions[1];
 		$subObj->technology = $subscriptions[2];
 		$subObj->places = $subscriptions[3];
-		$subObj->places = $subscriptions[4];
+		$subObj->music = $subscriptions[4];
 		
 		$subObj->user_id = $this->post('userid');
 		$subObj->save();
