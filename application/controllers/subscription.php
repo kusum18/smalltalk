@@ -15,7 +15,26 @@ class Subscription extends REST_Controller {
 	}
 	function test_get()
 	{
-		echo similar_text("123", "45");
+		echo similar_text("123", "41");
+		
+		
+		$objPQ = new SplPriorityQueue (); 
+
+		$objPQ->insert('A',3); 
+		$objPQ->insert('B',6); 
+		$objPQ->insert('C',1); 
+		$objPQ->insert('D',2);
+
+		$objPQ->setExtractFlags(SplPriorityQueue::EXTR_BOTH); 
+
+		//Go to TOP 
+		$objPQ->top(); 
+
+		while($objPQ->valid()){ 
+			print_r($objPQ->current()); 
+			echo "<BR>"; 
+			$objPQ->next(); 
+		} 		
 	}
 	function subscribe_post()
 	{

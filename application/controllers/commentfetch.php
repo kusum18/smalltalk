@@ -49,10 +49,10 @@ class Commentfetch extends REST_Controller {
 			if ($question->linkedin_post_id !=-1 and $t<7)
 			{
 				
-				echo strtotime($question->timestamp);
-				echo "   ";
-				echo 'CURR_TIME';
-				echo (time()-strtotime($question->timestamp))/(24*60*60);
+				//echo strtotime($question->timestamp);
+				//echo "   ";
+				//echo 'CURR_TIME';
+				//echo (time()-strtotime($question->timestamp))/(24*60*60);
 			// $question->linkedin_post_id
 				$userObj->where('id',$question->user_id)->get();
 				//$obj = new Linkedin_post();
