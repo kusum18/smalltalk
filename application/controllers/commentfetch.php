@@ -63,6 +63,7 @@ class Commentfetch extends REST_Controller {
 				{
 					foreach($comments->values as $comment)
 					{
+						//print_r($comment);
 						$postanswers->where('post_type',2);
 						$postanswers->where('question_answer_id',$question->id);
 						$postanswers->where('linkedin_post_id',$comment->id);
@@ -83,8 +84,14 @@ class Commentfetch extends REST_Controller {
 							
 							if($tempObj->id==null)
 							{
-								$newans->user_id=-1;
-								$newans->other_username=$comment->person->firstName;
+								$newUserObj = new User();
+								$newUserObj->username = $comment->person->firstName." ".$comment->person->lastName;
+								$newUserObj->linkedInID = $comment->person->id;
+								$newUserObj->isRegisterd = 0;
+								$newUserObj->save();
+								
+								$newans->user_id= $newUserObj->id;
+								//$newans->other_username=$comment->person->firstName;
 							}
 							else
 							{

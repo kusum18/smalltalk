@@ -10,6 +10,8 @@ class Newanswer extends REST_Controller {
 		//loding the model
 		$this->load->model('post');
 		$this->load->model('user');
+		$this->load->model('notification');
+		$this->load->helper('push');
  
 	 
 	}
@@ -31,6 +33,17 @@ class Newanswer extends REST_Controller {
 		
 		//saving data in the db
 		$answer_obj->save();
+		
+		$questionObj = new Post();
+		$questionObj->where('id',$this->post('question_id'))->get();
+		
+		
+		//for push notification
+		$user_obj = new User();
+		$user_obj->where('id',$questionObj->user_id)->get();
+		$pushObj = new Push();
+		$msg=$answer_obj->user_id.": Answered a question";
+		$pushObj->pushNotification($$user_obj->device_id,$msg);
 	
 	
 	}

@@ -13,7 +13,10 @@ class Subscription extends REST_Controller {
 		 
 	 
 	}
-	
+	function test_get()
+	{
+		echo similar_text("123", "45");
+	}
 	function subscribe_post()
 	{
 		//object declaration for the tables

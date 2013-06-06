@@ -8,6 +8,7 @@ class Insertdb extends REST_Controller{
 		$this->load->model('post');
 		$this->load->model('user');
 		$this->load->model('notification');
+		$this->load->model('user_subscription');
 		$this->load->helper('push');
 		$this->load->helper('linkedin_post');
 		$this->load->helper('facebook_post');
@@ -35,7 +36,16 @@ class Insertdb extends REST_Controller{
 
 	}
 	
-	
+	function friendlist($subscription,$userid)
+	{
+		$userSubObj = new User_subscription(); 
+		$userSubObj->where('user_id',$userid)->get();
+		
+		$usersub = $userSubObj->sports.$userSubObj->movies.$userSubObj->technology.$userSubObj->places.$userSubObj->music;
+		$subscriptions = explode(",", $subscription);
+		
+			
+	}
 	
 	public function insert_post(){
 		
