@@ -13,7 +13,29 @@ class Subscription extends REST_Controller {
 		 
 	 
 	}
-	
+	function test_get()
+	{
+		echo similar_text("123", "41");
+		
+		
+		$objPQ = new SplPriorityQueue (); 
+
+		$objPQ->insert('A',3); 
+		$objPQ->insert('B',6); 
+		$objPQ->insert('C',1); 
+		$objPQ->insert('D',2);
+
+		$objPQ->setExtractFlags(SplPriorityQueue::EXTR_BOTH); 
+
+		//Go to TOP 
+		$objPQ->top(); 
+
+		while($objPQ->valid()){ 
+			print_r($objPQ->current()); 
+			echo "<BR>"; 
+			$objPQ->next(); 
+		} 		
+	}
 	function subscribe_post()
 	{
 		//object declaration for the tables
@@ -22,33 +44,17 @@ class Subscription extends REST_Controller {
 		$subObj = new User_subscription();
 		
 		
-		echo $this->post('subscription');
+		//echo $this->post('subscription');
 		$subscriptions = explode(",", $this->post('subscription'));
-		foreach($subscriptions as $sub)
-		{
-			echo  $sub;
-			if($sub==1)
-			{
-				echo  $sub;
-				$subObj->sports=1;
-			}
-			if($sub==2)
-			{
-				$subObj->movies=1;
-			}
-			if($sub==3)
-			{
-				$subObj->technology=1;
-			}
-			if($sub==4)
-			{
-				$subObj->places=1;
-			}
-			if($sub==5)
-			{
-				$subObj->music=1;
-			}
-		}
+		//echo " ";
+		
+		$subObj->where('user_id',$this->post('userid'))->get();
+		$subObj->sports = $subscriptions[0];
+		$subObj->movies = $subscriptions[1];
+		$subObj->technology = $subscriptions[2];
+		$subObj->places = $subscriptions[3];
+		$subObj->music = $subscriptions[4];
+		
 		$subObj->user_id = $this->post('userid');
 		$subObj->save();
 		

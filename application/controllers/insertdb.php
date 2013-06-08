@@ -8,6 +8,7 @@ class Insertdb extends REST_Controller{
 		$this->load->model('post');
 		$this->load->model('user');
 		$this->load->model('notification');
+		$this->load->model('user_subscription');
 		$this->load->helper('push');
 		$this->load->helper('linkedin_post');
 		$this->load->helper('facebook_post');
@@ -35,7 +36,82 @@ class Insertdb extends REST_Controller{
 
 	}
 	
-	
+	function friendlist($qsubscription,$userid)
+	{
+		
+		
+		
+		$usersub = "";
+		echo $usersub;
+		
+		$quesub="";
+		$qsubscriptions = explode(",", $qsubscription);
+		$i=1;
+		foreach ($qsubscriptions as $sub)
+		{
+			if ($sub ==1)
+			{
+				$quesub=$quesub.$i;
+			}
+			$i=$i+1;
+		}
+		
+		$userfriedn = new Userfriends();
+		$userfriedn->where('user_id', $userid)->get();
+		
+		$friend = array();
+		$flag =0;
+		foreach($userfriedn->all as $o)
+		{
+			$flag = 1;
+			$friend['friend_id'][]=$o->friend_id;	
+		}
+		
+		if ($flag ==0)
+		{
+			//error checking if user has no friends
+		
+		}
+		
+		else
+		
+		{
+			$userSubObj = new User_subscription(); 
+			//fetch frends from friedns table for below statement
+			$userSubObj->where_in('user_id',$friend['friend_id'])->get();
+			$objPQ = new SplPriorityQueue (); 
+			foreach($userSubObj->all as $user)
+			{
+				if ($user->sports==1)
+				{$usersub=$usersub."1";}
+				if ($user->movies==1)
+				{$usersub=$usersub."2";}
+				if ($user->technology==1)
+				{$usersub=$usersub."3";}
+				if ($user->places==1)
+				{$usersub=$usersub."4";}
+				if ($user->music==1)
+				{$usersub=$usersub."5";}
+				$similar = similar_text($quesub, $usersub);
+				if ($similar!=0)
+				{
+					$objPQ->insert($user->user_id,similar_text($quesub, $usersub));	
+				}
+			}		
+			
+			echo "COUNT->".$objPQ->count()."<BR>"; 
+			$objPQ->setExtractFlags(SplPriorityQueue::EXTR_BOTH); 
+
+			//Go to TOP 
+			$objPQ->top(); 
+
+			while($objPQ->valid()){ 
+				print_r($objPQ->current()); 
+				echo "<BR>"; 
+				$objPQ->next(); 
+			}
+		}
+	}
 	
 	public function insert_post(){
 		

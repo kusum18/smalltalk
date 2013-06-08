@@ -38,24 +38,32 @@ class Commentfetch extends REST_Controller {
 		$newans = new Post();
 		
 		$postquestions->where('post_type',1);
-		$postquestions->where('question_answer_id',-1)
+		$postquestions->where('question_answer_id',-1);
 		$postquestions->get();
-		echo "count:".$postquestions->count();
+		//echo "count:".$postquestions->count();
 		//$postquestions->get();
 		echo "e ";
 		foreach($postquestions->all as $question)
 		{
-			
-			if ($question->linkedin_post_id !=-1)
+			$t =(time()-strtotime($question->timestamp))/(24*60*60);
+			if ($question->linkedin_post_id !=-1 and $t<7)
 			{
+				
+				//echo strtotime($question->timestamp);
+				//echo "   ";
+				//echo 'CURR_TIME';
+				//echo (time()-strtotime($question->timestamp))/(24*60*60);
 			// $question->linkedin_post_id
 				$userObj->where('id',$question->user_id)->get();
 				//$obj = new Linkedin_post();
 				$comments=$this->call($question->linkedin_post_id,$userObj->linkedintoken);
+				//print_r($comments);
+				//echo time();
 				if($comments!=null)
 				{
 					foreach($comments->values as $comment)
 					{
+						//print_r($comment);
 						$postanswers->where('post_type',2);
 						$postanswers->where('question_answer_id',$question->id);
 						$postanswers->where('linkedin_post_id',$comment->id);
@@ -76,8 +84,14 @@ class Commentfetch extends REST_Controller {
 							
 							if($tempObj->id==null)
 							{
-								$newans->user_id=-1;
-								$newans->other_username=$comment->person->firstName;
+								$newUserObj = new User();
+								$newUserObj->username = $comment->person->firstName." ".$comment->person->lastName;
+								$newUserObj->linkedInID = $comment->person->id;
+								$newUserObj->isRegisterd = 0;
+								$newUserObj->save();
+								
+								$newans->user_id= $newUserObj->id;
+								//$newans->other_username=$comment->person->firstName;
 							}
 							else
 							{
@@ -104,7 +118,7 @@ class Commentfetch extends REST_Controller {
 	
 	function index()
 	{
-		
+		echo time();
 	}
  
 	}

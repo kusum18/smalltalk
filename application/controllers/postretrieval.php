@@ -55,8 +55,10 @@ class Postretrieval extends REST_Controller {
 		$postit_obj->get();
 		$info = array();
 		$finalifno= array();
+		$flag =0;
 		foreach ($postit_obj->all as $obj)
 		{
+			$flag=1;
 			$geolocation_obj->where('id',$obj->location_id)->get();
 			$this->distance($lat, $long, $geolocation_obj->lat, $geolocation_obj->long);
 			//if ($this->distance($lat, $long, $geolocation_obj->lat, $geolocation_obj->long)<5)
@@ -71,8 +73,19 @@ class Postretrieval extends REST_Controller {
 			//}
 			
 		}
+		if ($flag == 1)
+		{
+			$finalifno['status_code']=200;
+			$this->response($finalifno);
 		
-		$this->response($finalifno);
+		}
+		else
+		{
+			$finalifno['status_code']=200;
+			$this->response($finalifno);
+			
+		}
+		
 	
 	}
 	
