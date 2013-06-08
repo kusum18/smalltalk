@@ -89,7 +89,5 @@ class Insertdb extends REST_Controller{
 			$msg=$user_obj->username.": Asked a question";
 			$pushObj->pushNotification($userObj->device_id,$msg);
 		}
-		
-		
 	}
 }
