@@ -15,9 +15,17 @@ class Subscription extends REST_Controller {
 	}
 	function test_get()
 	{
+		$button = "<input type='button' id='php_button' value='Click Me'>";
+		
+		echo $button;
 		echo similar_text("123", "41");
+		echo " ";
+		$sub="1,2,3";
 		
+		$qsubscriptions = explode(",", $sub);
+		echo count($qsubscriptions);
 		
+			echo " ";
 		$objPQ = new SplPriorityQueue (); 
 
 		$objPQ->insert('A',3); 
