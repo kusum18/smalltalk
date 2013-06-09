@@ -36,17 +36,18 @@ class Insertdb extends REST_Controller{
 
 	}
 	
-	function friendlist($qsubscription,$userid)
+	function friendlist($qsubscription,$userid,$friendlist)
 	{
-		
-		
-		
-		$usersub = "";
-		echo $usersub;
+
+		$fetchcount = 15 - count($friendlist);
+		if ($fetchcount<=0)
+		{	
+			return $friendlist;
+		}
 		
 		$quesub="";
-		$qsubscriptions = explode(",", $qsubscription);
-		$i=1;
+		
+		/* $i=1;
 		foreach ($qsubscriptions as $sub)
 		{
 			if ($sub ==1)
@@ -54,7 +55,7 @@ class Insertdb extends REST_Controller{
 				$quesub=$quesub.$i;
 			}
 			$i=$i+1;
-		}
+		} */
 		
 		$userfriedn = new Userfriends();
 		$userfriedn->where('user_id', $userid)->get();
@@ -75,14 +76,24 @@ class Insertdb extends REST_Controller{
 		
 		else
 		
-		{
+		{	$quesub="";
+			$qsubscriptions = explode(",", $qsubscription);
+			foreach ($qsubscriptions as $sub)
+			{
+				$quesub=$quesub.$sub;
+			} 
+			//$quesub = 
+			$usersub = array();
+			//echo $usersub;
 			$userSubObj = new User_subscription(); 
 			//fetch frends from friedns table for below statement
 			$userSubObj->where_in('user_id',$friend['friend_id'])->get();
 			$objPQ = new SplPriorityQueue (); 
+			$friPQ = new SplPriorityQueue ();
 			foreach($userSubObj->all as $user)
 			{
-				if ($user->sports==1)
+				$usersub=$user->sports.$user->movies.$user->technology.$user->places.$user->music
+				/* if ($user->sports==1)
 				{$usersub=$usersub."1";}
 				if ($user->movies==1)
 				{$usersub=$usersub."2";}
@@ -91,26 +102,62 @@ class Insertdb extends REST_Controller{
 				if ($user->places==1)
 				{$usersub=$usersub."4";}
 				if ($user->music==1)
-				{$usersub=$usersub."5";}
-				$similar = similar_text($quesub, $usersub);
+				{$usersub=$usersub."5";} */
+				//$similar = similar_text($quesub, $usersub);
+				$similar = $usersub * $quesub;
 				if ($similar!=0)
 				{
-					$objPQ->insert($user->user_id,similar_text($quesub, $usersub));	
+					$objPQ->insert($user->user_id,$similar);	
 				}
-			}		
-			
-			echo "COUNT->".$objPQ->count()."<BR>"; 
+				else
+				{
+					$friPQ->insert($user->user_id,$user->no_of_friends);
+				}
+			}
+			$flag=0;
+			if ($objPQ->count()< $fetchcount)
+			{
+				$flag = 1;
+			}
+			//echo "COUNT->".$objPQ->count()."<BR>"; 
 			$objPQ->setExtractFlags(SplPriorityQueue::EXTR_BOTH); 
-
+			
 			//Go to TOP 
 			$objPQ->top(); 
-
+			$count=1;
 			while($objPQ->valid()){ 
-				print_r($objPQ->current()); 
-				echo "<BR>"; 
+				
+				$friendlist=$friendlist."'".$objPQ->current()); 
+				//echo "<BR>"; 
 				$objPQ->next(); 
+				$count= $count+1;
+				if ($count >$fetchcount)
+				{	
+					break;
+				}
 			}
+			if($flag==1)
+			{
+				$fetchcount=$fetchcount- $objPQ->count();
+				$friPQ->top(); 
+				$count=1;
+				while($friPQ->valid()){ 
+					
+					$friendlist=$friendlist."'".$friPQ->current()); 
+					//echo "<BR>"; 
+					$friPQ->next(); 
+					$count= $count+1;
+					if ($count >$fetchcount)
+					{	
+						break;
+					}
+				}
+				
+			}
+			
+			
 		}
+		return $friendlist;
 	}
 	
 	public function insert_post(){
