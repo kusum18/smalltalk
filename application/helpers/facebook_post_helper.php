@@ -14,7 +14,7 @@ class Facebook_post {
 			'access_token' => $token,
 			'message' => $msg,
 		);
-		echo "inhelper";
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,'https://graph.facebook.com/me/feed');
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -29,14 +29,15 @@ class Facebook_post {
 		return $result;
 	}
 
-	public function fetchPostComment($token){
+	public function fetchPostComment($token,$wallPostId){
 		$context = stream_context_create(array(
 			'http' => array(
 			'ignore_errors'=>true,
 			'method'=>'GET'
 		)
 		));
-		$response = json_decode(file_get_contents("https://graph.facebook.com/19292868552_10150189643478553/comments?access_token=$token", true, $context));
+		$response = json_decode(file_get_contents("https://graph.facebook.com/$wallPostId/comments?access_token=$token", true, $context));
+		//print_r($response);
 		return $response;
 	}
 
