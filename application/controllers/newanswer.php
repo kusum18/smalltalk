@@ -43,7 +43,7 @@ class Newanswer extends REST_Controller {
 		$user_obj->where('id',$questionObj->user_id)->get();
 		$pushObj = new Push();
 		$msg=$answer_obj->user_id.": Answered a question";
-		$pushObj->pushNotification($$user_obj->device_id,$msg);
+		$pushObj->pushNotification($user_obj->device_id,$msg);
 	
 	
 	}
