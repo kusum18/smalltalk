@@ -143,7 +143,7 @@ class Insertdb extends REST_Controller{
 				$count=1;
 				while($friPQ->valid()){ 
 					
-					$friendlist=$friendlist."'".$friPQ->current()); 
+					$friendlist=$friendlist."'".$friPQ->current(); 
 					//echo "<BR>"; 
 					$friPQ->next(); 
 					$count= $count+1;
