@@ -127,7 +127,7 @@ class Insertdb extends REST_Controller{
 			$count=1;
 			while($objPQ->valid()){ 
 				
-				$friendlist=$friendlist."'".$objPQ->current()); 
+				$friendlist=$friendlist."'".$objPQ->current(); 
 				//echo "<BR>"; 
 				$objPQ->next(); 
 				$count= $count+1;
