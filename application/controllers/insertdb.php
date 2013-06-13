@@ -92,7 +92,7 @@ class Insertdb extends REST_Controller{
 			$friPQ = new SplPriorityQueue ();
 			foreach($userSubObj->all as $user)
 			{
-				$usersub=$user->sports.$user->movies.$user->technology.$user->places.$user->music
+				$usersub=$user->sports.$user->movies.$user->technology.$user->places.$user->music;
 				/* if ($user->sports==1)
 				{$usersub=$usersub."1";}
 				if ($user->movies==1)
