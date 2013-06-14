@@ -5,54 +5,55 @@
 	function __construct(){
 		parent::__construct();
 		//loding the model
-		$this->load->model('user_subscription');
+		$this->load->model('post_tag');
 		$this->load->model('similar_tag');
-		$this->load->helper('categorize');
+		$this->load->helper('Categorize');
 	}
 	
-	function tagClassify_post($tags_List, $uid){
-		$user_sub = new User_subscription();
-		$tags = checkForSimilarity($tags_List);
+	function tagClassify_post(){
+		$tags_List = $this->post('tagslist');
+		$tag_obj = new Post_tag();
+		$pid = $this->post('id');
+		$helper_obj = new Catergorize();
+		
+		$tags = $helper_obj->checkForSimilarity($tags_List);
+		//print_r($tags);
 		$st_obj_mov = new Similar_tag();
 		$st_obj_mus = new Similar_tag();
 		$st_obj_tech = new Similar_tag();
-		$st_obj_sp = new Similar_tag();
+		$st_obj = new Similar_tag();
 		$st_obj_pl = new Similar_tag();
-		$i= count($tags);
+
+		$i_count= count($tags);
 		$category = array();
-		for($i=0;$i<count;$i++){
-			$st_obj_mov->where('TagName',tags[$i])->get();
-			$st_obj_mus->where('TagName',tags[$i])->get();
-			$st_obj_tech->where('TagName',tags[$i])->get();
-			$st_obj_sp->where('TagName',tags[$i])->get();
-			$st_obj_pl->where('TagName',tags[$i])->get();
+		for($i=0;$i<$i_count;$i++){
+			//echo($tags[$i]);
+			//$st_obj_mov->where('TagName',$tags[$i])->get();
+			//$st_obj_mus->where('TagName',$tags[$i])->get();
+			//$st_obj_tech->where('TagName',$tags[$i])->get();
+			$st_obj->where('TagName',$tags[$i])->get();
+			//$st_obj_pl->where('TagName',$tags[$i])->get();
+			
+			array_push($category, $st_obj);
+			$st_obj = new Similar_tag();
 		}
-		$tag_stack = array();
-		if(($st_obj_pl->where('Places',1)->get('TagName'))!='');
-			array_push($tag_stack, 'Places');
-		if(($st_obj_mov->where('Movies',1)->get('TagName'))!='');
-			array_push($tag_stack,'Movies');
-		if($st_obj_mus->where('Music',1)->get('TagName'))!='');
-			array_push($tag_stack,'Music');
-		if(($st_obj_tech->where('Technology',1)->get('TagName'))!='');
-			array_push($tag_stack,'Technology');
-		if(($st_obj_sp->where('Sports',1)->get('TagName'))!='');
-			array_push($tag_stack,'Sports');
 		
-		$user_sub->user_id = $uid;
-		$size = count($tag_stack);
-		for($i = 0; $i < $size; $i++){
-			if($tag_stack[i] == 'Places')
-				$user_sub->Places = 1;
-			if($tag_stack[i] == 'Movies')
-				$user_sub->Movies = 1;
-			if($tag_stack[i] == 'Music')
-				$user_sub->Music = 1;
-			if($tag_stack[i] == 'Sports')
-				$user_sub->Sports = 1;
-			if($tag_stack[i] == 'Technology')
-				$user_sub->Technology = 1;
+		//print_r($category);
+		foreach ($category as $value) {
+			if($value->Sports==1)
+				$tag_obj->Sports = 1;
+			if($value->Movies==1)
+				$tag_obj->Movies = 1;
+			if($value->Technology==1)
+				$tag_obj->Technology = 1;
+			if($value->Places==1)
+				$tag_obj->Places = 1;
+			if($value->Music==1)
+				$tag_obj->Music = 1;
+		
 		}
-		$user_sub->save();
+		$tag_obj->post_id=$pid;
+		$tag_obj->save();
+		
 	}
-?>
+}
