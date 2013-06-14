@@ -62,6 +62,7 @@ class UserReg extends REST_Controller {
 					$userObj->linkedintoken = $token;
 					$userObj->linkedInID = $id;
 					
+					
 				}
 			}
 			
@@ -86,6 +87,8 @@ class UserReg extends REST_Controller {
 				$userObj->device_id = $devicetoken;
 				$userObj->linkedintoken = $token;
 				$userObj->linkedInID = $id;
+				$this->getfriends($token);
+				
 					
 			}
 
@@ -173,7 +176,42 @@ class UserReg extends REST_Controller {
 				
 
 	}
+	function getfriends($token)
+	{
 	
+	//print_r(stream_get_wrappers());
+
+	
+		//$token="AQWxVYyfrsRmUxorraZ9xZSeLXtNBhRG_HYthUN1NTRLryl_oiE3YxI1mrtmDsFWs7xCYqX4EgkuKzAxa9rwTCxDTiIAP7KyDPuKIAb_uuSy-I1rqYjpRMeMJPBx7CY17b9bPjtAiykdWF6J-da2_rDANPc7R6h65zdAQSiO_WId5YPYcEc";
+		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/connections?oauth2_access_token=$token");
+		//print_r($data);
+		//echo $xml['@attributes'];
+		//$xml=simplexml_load_string($data);
+		//$xml->getName() . "<br />";
+		$userObj = new User();
+		$user = array();
+		$userDetails = array();
+		foreach($xml->children() as $child)
+		{
+			foreach($child->children() as $subchild)
+			{
+				$user[$subchild->getName()]= $subchild;
+				//echo $subchild;
+			}
+			$userDetails["user"][]=$user;
+		} 
+		
+		//print_r($userDetails);
+		foreach ($userDetails as $u)
+		{
+			
+			$userObj->linkedInID = $u["0"]["id"];
+			$userObj->username = $u["0"]["first-name"]." ". $u["0"]["last-name"];
+			$userObj->save();
+		}
+		
+		
+	}
 	function index()
 	{
 		
