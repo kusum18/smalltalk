@@ -86,7 +86,7 @@ class UserReg extends REST_Controller {
 				$userObj->username = $username;
 				$userObj->device_id = $devicetoken;
 				$userObj->linkedintoken = $token;
-				$userObj->linkedInID = $id;
+				$userObj->linkedInID = $this->getlinkedinid($token);
 				$this->getfriends($token);
 				
 					
@@ -176,7 +176,7 @@ class UserReg extends REST_Controller {
 				
 
 	}
-	function getfriends($token)
+	function getfriends_get($token)
 	{
 	
 	//print_r(stream_get_wrappers());
@@ -202,15 +202,25 @@ class UserReg extends REST_Controller {
 		} 
 		
 		//print_r($userDetails);
-		foreach ($userDetails as $u)
+	
+		foreach ($userDetails["user"] as $u)
 		{
-			
-			$userObj->linkedInID = $u["0"]["id"];
-			$userObj->username = $u["0"]["first-name"]." ". $u["0"]["last-name"];
+			//print_r($u);
+			//echo count($userDetails["user"]);
+			$userObj->linkedInID = $u["id"]."";
+			$userObj->username = $u["first-name"]." ". $u["last-name"];
 			$userObj->save();
+			
 		}
 		
 		
+	}
+	
+	function getlinkedinid($token)
+	{
+	
+		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/id/?oauth2_access_token=$token");
+		echo $xml;
 	}
 	function index()
 	{

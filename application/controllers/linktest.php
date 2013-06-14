@@ -31,6 +31,13 @@ class linktest extends REST_Controller {
 		
  	}
 	
+	function getlinkedinid_get($token)
+	{
+	
+		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/id/?oauth2_access_token=$token");
+		echo $xml;
+	}
+	
 	function gettoken_get()
 	{
 		//echo "redirect    ";
