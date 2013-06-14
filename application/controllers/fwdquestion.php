@@ -21,7 +21,10 @@ class Fwdquestion extends REST_Controller {
 	function forward_post()
 	{
 		$pid = $this->post('post_id');
-		$user_obj = $this->post('user_id');
+		$user_id = $this->post('user_id');
+		
+		$user_Obj = new User();
+		$user_Obj->where('id',$user_id)->get();
 		$pieces = $this->post('tagged_ppl');
 		$splitpieces = explode(",", $pieces);
 		
