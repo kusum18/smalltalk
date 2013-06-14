@@ -41,7 +41,7 @@ class Fwdquestion extends REST_Controller {
 			
 			//for push notification
 			$pushObj = new Push();
-			$msg=$user_obj->username.": Forwarded a question";
+			$msg=$user_Obj->username.": Forwarded a question";
 			$pushObj->pushNotification($userObj->device_id,$msg);
 		}
 	
