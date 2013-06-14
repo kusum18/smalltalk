@@ -12,6 +12,5 @@ class Catergorize{
 		
 		return $user_tags;
 	}
-
-
 }
+?>
