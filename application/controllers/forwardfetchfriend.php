@@ -1,7 +1,7 @@
 <?php
 require(APPPATH.'libraries/REST_Controller.php');
 
-class Forwardfetchfriends extends REST_Controller {
+class Forwardfetchfriend extends REST_Controller {
 	function __construct(){
  
 		parent::__construct();

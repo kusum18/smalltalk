@@ -12,6 +12,7 @@ class Insertdb extends REST_Controller{
 		$this->load->helper('push');
 		$this->load->helper('linkedin_post');
 		$this->load->helper('facebook_post');
+		$this->load->model('userfriend');
  	}
 	function linkedinposts($postid)
 	{
@@ -57,7 +58,7 @@ class Insertdb extends REST_Controller{
 			$i=$i+1;
 		} */
 		
-		$userfriedn = new Userfriends();
+		$userfriedn = new Userfriend();
 		$userfriedn->where('user_id', $userid)->get();
 		
 		$friend = array();
@@ -82,7 +83,7 @@ class Insertdb extends REST_Controller{
 			{
 				$quesub=$quesub.$sub;
 			} 
-			//$quesub = 
+			echo $quesub; 
 			$usersub = array();
 			//echo $usersub;
 			$userSubObj = new User_subscription(); 
@@ -177,6 +178,9 @@ class Insertdb extends REST_Controller{
 			echo $e->getMessage();
 		}
 		
+		//$pieces = $this->post('tagged_ppl');
+		//echo $this->friendlist($this->post('categories'),$post_obj->user_id,$pieces);
+		
 		try{
 			$user_obj->where('id', $post_obj->user_id)->get();
 			$token=$user_obj->fbtoken;
@@ -194,6 +198,7 @@ class Insertdb extends REST_Controller{
 		
 		$pid = $post_obj->id;
 		$pieces = $this->post('tagged_ppl');
+		//echo $this->friendlist($this->post('categories'),$post_obj->user_id,$pieces);
 		$splitpieces = explode(",", $pieces);
 		
 		
