@@ -19,7 +19,7 @@ class linktest extends REST_Controller {
  
 		$this->data['consumer_key'] = "fq4youx8soll";
 		$this->data['consumer_secret'] = "KpXnbEfvnWyt4zpk";
-		$this->data['callback_url'] = "http://localhost/smalltalk/index.php/linktest/gettoken";
+		$this->data['callback_url'] = "http://54.214.205.250/smalltalk/index.php/linktest/gettoken";
  
 	}
 	
@@ -27,7 +27,7 @@ class linktest extends REST_Controller {
 	{
 		//$scope_var="r_fullprofile,r_emailaddress,r_network rw_nus";
 	
-		redirect("https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=fq4youx8soll&scope=r_fullprofile%20r_emailaddress%20r_network%20rw_nus&state=QSHHFHfhjdHDFlsjdjs109djs7sh&redirect_uri=http://localhost/smalltalk/index.php/linktest/gettoken");
+		redirect("https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=fq4youx8soll&scope=r_fullprofile%20r_emailaddress%20r_network%20rw_nus&state=QSHHFHfhjdHDFlsjdjs109djs7sh&redirect_uri=http://54.214.205.250/smalltalk/index.php/linktest/gettoken");
 		
  	}
 	
