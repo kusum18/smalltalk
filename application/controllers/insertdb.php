@@ -92,7 +92,7 @@ class Insertdb extends REST_Controller{
 			$friPQ = new SplPriorityQueue ();
 			foreach($userSubObj->all as $user)
 			{
-				$usersub=$user->sports.$user->movies.$user->technology.$user->places.$user->music
+				$usersub=$user->sports.$user->movies.$user->technology.$user->places.$user->music;
 				/* if ($user->sports==1)
 				{$usersub=$usersub."1";}
 				if ($user->movies==1)
@@ -127,7 +127,7 @@ class Insertdb extends REST_Controller{
 			$count=1;
 			while($objPQ->valid()){ 
 				
-				$friendlist=$friendlist."'".$objPQ->current()); 
+				$friendlist=$friendlist."'".$objPQ->current(); 
 				//echo "<BR>"; 
 				$objPQ->next(); 
 				$count= $count+1;
@@ -143,7 +143,7 @@ class Insertdb extends REST_Controller{
 				$count=1;
 				while($friPQ->valid()){ 
 					
-					$friendlist=$friendlist."'".$friPQ->current()); 
+					$friendlist=$friendlist."'".$friPQ->current(); 
 					//echo "<BR>"; 
 					$friPQ->next(); 
 					$count= $count+1;
