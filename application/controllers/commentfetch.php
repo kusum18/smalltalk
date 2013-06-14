@@ -105,13 +105,13 @@ class Commentfetch extends REST_Controller {
 							
 							
 							//for push notification
-							$user_obj1 = new User();
+							//$user_obj1 = new User();
 							//$ansuser_obj = new User();
-							$user_obj1->where('id',$question->user_id)->get();
+							//$user_obj1->where('id',$question->user_id)->get();
 							//$ansuser_obj->where('id',$answer_obj->user_id)->get();
 							$pushObj = new Push();
 							$msg=$newUserObj->username.": Answered a question";
-							$pushObj->pushNotification($user_obj1->device_id,$msg);
+							$pushObj->pushNotification($userObj->device_id,$msg);
 							
 						}
 						
