@@ -53,7 +53,7 @@ class fetchFacebookComment extends REST_Controller {
 						$post_obj_insert->post_text = $response_obj->message;
 						$post_obj_insert->count = $response_obj->like_count;
 						$post_obj_insert->facebook_post_id = $response_obj->id;
-					
+					   $post_obj_insert->post_type = 2;
 						$post_obj_insert->save();
 						$post_obj_insert = new Post();
 					}			
