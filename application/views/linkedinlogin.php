@@ -6,7 +6,7 @@
 
 <p></p>
 <form action="http://localhost/smalltalk/index.php/linktest/authcode">
-    <input type="submit" value="Cennect Linkedin">
+    <input type="submit" value="Connect Linkedin">
 </form>
 
 </body>
