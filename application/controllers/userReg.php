@@ -87,7 +87,7 @@ class UserReg extends REST_Controller {
 				$userObj->device_id = $devicetoken;
 				$userObj->linkedintoken = $token;
 				$userObj->linkedInID = $this->getlinkedinid($token);
-				$this->getfriends($token);
+				$this->getfriends($token,$user_id);
 				
 					
 			}
@@ -176,7 +176,7 @@ class UserReg extends REST_Controller {
 				
 
 	}
-	function getfriends_get($token)
+	function getfriends($token,$uid)
 	{
 	
 	//print_r(stream_get_wrappers());
@@ -202,7 +202,7 @@ class UserReg extends REST_Controller {
 		} 
 		
 		//print_r($userDetails);
-	
+		$userfr = new Userfriends();
 		foreach ($userDetails["user"] as $u)
 		{
 			//print_r($u);
@@ -210,6 +210,11 @@ class UserReg extends REST_Controller {
 			$userObj->linkedInID = $u["id"]."";
 			$userObj->username = $u["first-name"]." ". $u["last-name"];
 			$userObj->save();
+			$userfr->friend_id=$userObj->id;
+			$userfr->friend_name=$userObj->username;
+			$userfr->islinkedin=1;
+			$userfr->user_id=$uid;
+			$userfr->save();
 			
 		}
 		

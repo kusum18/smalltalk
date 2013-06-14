@@ -8,11 +8,12 @@ class Forwardfetchfriends extends REST_Controller {
 		//loding the model
 		$this->load->model('userfriend');
 		$this->load->model('user');
+		$this->load->model('notifications');
 	}
 	function fwdfriendlist_get($uid, $postid)
 	{
 	
-		$notificationObj = Notifications();
+		$notificationObj = new Notifications();
 		$notificationObj->where('postID', $postid)->get();
 		$fwdfriends = array();
 		foreach($notificationObj-> all as $friend)
