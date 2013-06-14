@@ -11,12 +11,14 @@ class Fwdquestion extends REST_Controller {
 		$this->load->model('post');
 		$this->load->model('userfriend');
 		$this->load->model('user');
-		$this->load->model('post_it');
- 
+		$this->load->model('notification');
+		
+		$this->load->helper('push');
+	
 	 
 	}
 	
-	function forward_put()
+	function forward_post()
 	{
 		$pid = $this->post('post_id');
 		$user_obj = $this->post('user_id');
