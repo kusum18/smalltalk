@@ -38,7 +38,7 @@ class linktest extends REST_Controller {
 		$callback=$this->data['callback_url'];
 		
 		redirect("https://www.linkedin.com/uas/oauth2/accessToken?grant_type=authorization_code&code=$auth_code&redirect_uri=$callback&client_id=fq4youx8soll&client_secret=KpXnbEfvnWyt4zpk");
-		echo $this->input->get('code');
+		//echo $this->input->get('code');
 	}
 	
 	
