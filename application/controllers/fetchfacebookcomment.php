@@ -16,6 +16,7 @@ class fetchFacebookComment extends REST_Controller {
 		$helper_obj = new Facebook_post();
 		$post_obj_ret = new Post();
 		$post_obj_insert  = new Post();
+      $post_obj_dup  = new Post();
 		$user_obj = new User();
 		$user_obj_2 = new User();
 		$post_obj_ret->where('post_type',1);
@@ -32,16 +33,19 @@ class fetchFacebookComment extends REST_Controller {
 				print_r($response);
 				$data = $response->data;
 				
-				
 				$flag=0;
 				$flag_usr=0;
     			for ($i = 0; $i < count($data); $i++)  {
 					//echo "$key: => $val\n";
 						$response_obj = $data[$i];
 						//echo $first->from->id;
-
+                  $post_obj_dup->where('post_type',2);
+                  $post_obj_dup->like('$post_obj_dup->facebook_post_id', '$response_obj->id)' );
+                  if($post_obj_dup->facebook_post_id==''){
+                     
 						$post_obj_insert->user_id = $question->user_id;
 						
+                  
 						$user_obj->where('FacebookId', $response_obj->from->id)->get();
 						if($user_obj->FacebookId=''){
 							$user_obj->name = $response_obj->from->name;
@@ -53,13 +57,16 @@ class fetchFacebookComment extends REST_Controller {
 						$post_obj_insert->post_text = $response_obj->message;
 						$post_obj_insert->count = $response_obj->like_count;
 						$post_obj_insert->facebook_post_id = $response_obj->id;
-					
+					   $post_obj_insert->post_type = 2;
+                  $post_obj_insert->question_answer_id = $question->id;
 						$post_obj_insert->save();
 						$post_obj_insert = new Post();
 					}			
 				} 
+
 			$user_obj = new User();
 			}
+      }
 		}
 	
 	
