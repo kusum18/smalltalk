@@ -86,7 +86,7 @@ class UserReg extends REST_Controller {
 				$userObj->username = $username;
 				$userObj->device_id = $devicetoken;
 				$userObj->linkedintoken = $token;
-				$userObj->linkedInID = $this->getlinkedinid($token);
+				$userObj->linkedInID = $this->getlinkedinid($token)."";
 				$this->getfriends($token,$user_id);
 				
 					
