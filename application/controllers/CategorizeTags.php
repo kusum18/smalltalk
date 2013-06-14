@@ -9,7 +9,6 @@
 		$this->load->model('similar_tag');
 		$this->load->helper('Categorize');
 	}
-	
 	function tagClassify_post(){
 		$tags_List = $this->post('tagslist');
 		$tag_obj = new Post_tag();
@@ -18,12 +17,9 @@
 		
 		$tags = $helper_obj->checkForSimilarity($tags_List);
 		//print_r($tags);
-		$st_obj_mov = new Similar_tag();
-		$st_obj_mus = new Similar_tag();
-		$st_obj_tech = new Similar_tag();
-		$st_obj = new Similar_tag();
-		$st_obj_pl = new Similar_tag();
 
+		$st_obj = new Similar_tag();
+		
 		$i_count= count($tags);
 		$category = array();
 		for($i=0;$i<$i_count;$i++){
@@ -37,7 +33,6 @@
 			array_push($category, $st_obj);
 			$st_obj = new Similar_tag();
 		}
-		
 		//print_r($category);
 		foreach ($category as $value) {
 			if($value->Sports==1)
@@ -54,6 +49,7 @@
 		}
 		$tag_obj->post_id=$pid;
 		$tag_obj->save();
-		
+
 	}
-}
+	}
+

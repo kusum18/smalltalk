@@ -14,10 +14,12 @@ class linktest extends REST_Controller {
 		parse_str(substr(strrchr($_SERVER['REQUEST_URI'], "?"), 1), $_GET);
 		$this->load->helper('url');
 		$this->load->library('session');
+		$this->load->model('user');
+		$this->load->model('userfriend');
  
 		$this->data['consumer_key'] = "fq4youx8soll";
 		$this->data['consumer_secret'] = "KpXnbEfvnWyt4zpk";
-		$this->data['callback_url'] = "http://localhost/smalltalk/index.php/linktest/gettoken";
+		$this->data['callback_url'] = "http://54.214.205.250/smalltalk/index.php/linktest/gettoken";
  
 	}
 	
@@ -25,9 +27,16 @@ class linktest extends REST_Controller {
 	{
 		//$scope_var="r_fullprofile,r_emailaddress,r_network rw_nus";
 	
-		redirect("https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=fq4youx8soll&scope=r_fullprofile%20r_emailaddress%20r_network%20rw_nus&state=QSHHFHfhjdHDFlsjdjs109djs7sh&redirect_uri=http://localhost/smalltalk/index.php/linktest/gettoken");
+		redirect("https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=fq4youx8soll&scope=r_fullprofile%20r_emailaddress%20r_network%20rw_nus&state=QSHHFHfhjdHDFlsjdjs109djs7sh&redirect_uri=http://54.214.205.250/smalltalk/index.php/linktest/gettoken");
 		
  	}
+	
+	function getlinkedinid_get($token)
+	{
+	
+		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/id/?oauth2_access_token=$token");
+		echo $xml;
+	}
 	
 	function gettoken_get()
 	{
@@ -44,27 +53,41 @@ class linktest extends REST_Controller {
 	
 	
 	
-	function getfriends()
+	function getfriends_get($token)
 	{
 	
 	//print_r(stream_get_wrappers());
 
 	
-	
-		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/connections?oauth2_access_token=AQWEmzfjljKEbjjublEw078ULWcHH505ZCb5GjH_c4FkRqukuz34jaeDfurJ8LTktH87Q-KcB2WMrPsYa_TSdmgEHpgVDPBdtBBWH3EwN4-w1amikqWF5BsLrmwP1HleHGHepgKtk6HH7EeuyzE795jupa5NsJu1NgNO6mdInovOY2cPxqI");
+		//$token="AQWxVYyfrsRmUxorraZ9xZSeLXtNBhRG_HYthUN1NTRLryl_oiE3YxI1mrtmDsFWs7xCYqX4EgkuKzAxa9rwTCxDTiIAP7KyDPuKIAb_uuSy-I1rqYjpRMeMJPBx7CY17b9bPjtAiykdWF6J-da2_rDANPc7R6h65zdAQSiO_WId5YPYcEc";
+		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/connections?oauth2_access_token=$token");
 		//print_r($data);
-		echo $xml['@attributes'];
+		//echo $xml['@attributes'];
 		//$xml=simplexml_load_string($data);
 		//$xml->getName() . "<br />";
-
+		$userObj = new User();
+		$user = array();
+		$userDetails = array();
 		foreach($xml->children() as $child)
 		{
 			foreach($child->children() as $subchild)
 			{
-				echo $subchild->getName() . ": " . $subchild . "<br />";
-				
+				$user[$subchild->getName()]= $subchild;
+				//echo $subchild;
 			}
+			$userDetails["user"][]=$user;
 		} 
+		
+		//print_r($userDetails);
+		foreach ($userDetails as $u)
+		{
+			
+			$userObj->linkedInID = $u["0"]["id"];
+			$userObj->username = $u["0"]["first-name"]." ". $u["0"]["last-name"];
+			$userObj->save();
+		}
+		
+		
 	}
 
 	function getallactitvities()

@@ -62,6 +62,7 @@ class UserReg extends REST_Controller {
 					$userObj->linkedintoken = $token;
 					$userObj->linkedInID = $id;
 					
+					
 				}
 			}
 			
@@ -85,7 +86,9 @@ class UserReg extends REST_Controller {
 				$userObj->username = $username;
 				$userObj->device_id = $devicetoken;
 				$userObj->linkedintoken = $token;
-				$userObj->linkedInID = $id;
+				$userObj->linkedInID = $this->getlinkedinid($token)."";
+				$this->getfriends($token,$user_id);
+				
 					
 			}
 
@@ -173,7 +176,59 @@ class UserReg extends REST_Controller {
 				
 
 	}
+	function getfriends($token,$uid)
+	{
 	
+	//print_r(stream_get_wrappers());
+
+	
+		//$token="AQWxVYyfrsRmUxorraZ9xZSeLXtNBhRG_HYthUN1NTRLryl_oiE3YxI1mrtmDsFWs7xCYqX4EgkuKzAxa9rwTCxDTiIAP7KyDPuKIAb_uuSy-I1rqYjpRMeMJPBx7CY17b9bPjtAiykdWF6J-da2_rDANPc7R6h65zdAQSiO_WId5YPYcEc";
+		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/connections?oauth2_access_token=$token");
+		//print_r($data);
+		//echo $xml['@attributes'];
+		//$xml=simplexml_load_string($data);
+		//$xml->getName() . "<br />";
+		
+		$user = array();
+		$userDetails = array();
+		foreach($xml->children() as $child)
+		{
+			foreach($child->children() as $subchild)
+			{
+				$user[$subchild->getName()]= $subchild;
+				//echo $subchild;
+			}
+			$userDetails["user"][]=$user;
+		} 
+		
+		//print_r($userDetails);
+		$userfr = new Userfriend();
+		foreach ($userDetails["user"] as $u)
+		{
+			//print_r($u);
+			//echo count($userDetails["user"]);
+			$userObj = new User();
+			$userfr = new Userfriend();
+			$userObj->linkedInID = $u["id"]."";
+			$userObj->username = $u["first-name"]." ". $u["last-name"];
+			$userObj->save();
+			$userfr->friend_id=$userObj->id;
+			$userfr->friend_name=$userObj->username;
+			$userfr->islinkedin=1;
+			$userfr->user_id=$uid;
+			$userfr->save();
+			
+		}
+		
+		
+	}
+	
+	function getlinkedinid($token)
+	{
+	
+		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/id/?oauth2_access_token=$token");
+		return $xml;
+	}
 	function index()
 	{
 		
