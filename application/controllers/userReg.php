@@ -202,7 +202,7 @@ class UserReg extends REST_Controller {
 		} 
 		
 		//print_r($userDetails);
-		$userfr = new Userfriends();
+		$userfr = new Userfriend();
 		foreach ($userDetails["user"] as $u)
 		{
 			//print_r($u);
