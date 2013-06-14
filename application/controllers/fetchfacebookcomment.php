@@ -40,9 +40,9 @@ class fetchFacebookComment extends REST_Controller {
 						$response_obj = $data[$i];
 						//echo $first->from->id;
                   $post_obj_dup->where('post_type',2);
-                  $post_obj_dup->like('$post_obj_dup->facebook_post_id', '$response_obj->id)' );
+                  $post_obj_dup->where('facebook_post_id', $response_obj->id );
                   if($post_obj_dup->facebook_post_id==''){
-                     
+
 						$post_obj_insert->user_id = $question->user_id;
 						
                   
