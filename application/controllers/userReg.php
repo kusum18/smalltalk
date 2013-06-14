@@ -188,7 +188,7 @@ class UserReg extends REST_Controller {
 		//echo $xml['@attributes'];
 		//$xml=simplexml_load_string($data);
 		//$xml->getName() . "<br />";
-		$userObj = new User();
+		
 		$user = array();
 		$userDetails = array();
 		foreach($xml->children() as $child)
@@ -207,6 +207,8 @@ class UserReg extends REST_Controller {
 		{
 			//print_r($u);
 			//echo count($userDetails["user"]);
+			$userObj = new User();
+			$userfr = new Userfriend();
 			$userObj->linkedInID = $u["id"]."";
 			$userObj->username = $u["first-name"]." ". $u["last-name"];
 			$userObj->save();
@@ -225,7 +227,7 @@ class UserReg extends REST_Controller {
 	{
 	
 		$xml = simplexml_load_file("https://api.linkedin.com/v1/people/~/id/?oauth2_access_token=$token");
-		echo $xml;
+		return $xml;
 	}
 	function index()
 	{
